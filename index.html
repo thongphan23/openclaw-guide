@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Cài Đặt OpenClaw — Trợ Lý AI Cá Nhân</title>
+    <meta name="description"
+        content="Hướng dẫn cài đặt OpenClaw trên macOS và Windows. Cài trong 3 phút, không cần biết code. Tài liệu bởi Thông Phan — Conan School.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0e0c0d;
+            --surface: #1a1718;
+            --surface-2: #242021;
+            --surface-3: #2e2a2b;
+            --accent: #FF5A36;
+            --accent-light: #FF8A6B;
+            --accent-glow: rgba(255, 90, 54, 0.15);
+            --text: #f0ece8;
+            --text-secondary: #a89f9a;
+            --text-muted: #6e6368;
+            --border: #3a3435;
+            --green: #4ade80;
+            --blue: #60a5fa;
+            --purple: #c084fc;
+            --yellow: #fbbf24;
+            --pink: #f472b6;
+            --cyan: #22d3ee;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== NAV ===== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(14, 12, 13, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: box-shadow 0.3s;
+        }
+
+        .nav.scrolled {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-brand .lobster {
+            font-size: 1.4rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+            background: var(--surface-2);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: 140px 24px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.82rem;
+            color: var(--accent-light);
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(255, 90, 54, 0.3);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(255, 90, 54, 0.4);
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 60px 0;
+        }
+
+        .section+.section {
+            border-top: 1px solid var(--border);
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 32px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 32px 0 12px;
+            color: var(--text);
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 24px 0 8px;
+            color: var(--text-secondary);
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text);
+        }
+
+        /* ===== REQUIREMENT TABLE ===== */
+        .req-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .req-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: border-color 0.3s;
+        }
+
+        .req-card:hover {
+            border-color: var(--accent);
+        }
+
+        .req-card .icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .req-card h4 {
+            margin: 0 0 12px;
+            color: var(--text);
+            font-size: 1.05rem;
+        }
+
+        .req-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .req-card li {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .req-card li::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* ===== STEPS ===== */
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 56px;
+            margin-bottom: 36px;
+        }
+
+        .step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .step h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .step p {
+            font-size: 0.95rem;
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        .code-block {
+            position: relative;
+            background: #111;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin: 12px 0 16px;
+            overflow: hidden;
+        }
+
+        .code-block .code-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-block .copy-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .code-block .copy-btn:hover {
+            background: var(--surface-3);
+            color: var(--text);
+        }
+
+        .code-block .copy-btn.copied {
+            color: var(--green);
+            border-color: var(--green);
+        }
+
+        .code-block pre {
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        .code-block code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-light);
+        }
+
+        /* Inline code */
+        code:not(.code-block code) {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--surface-2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: var(--accent-light);
+        }
+
+        /* ===== CALLOUTS ===== */
+        .callout {
+            padding: 16px 20px;
+            border-radius: var(--radius-sm);
+            margin: 16px 0;
+            font-size: 0.9rem;
+            border-left: 3px solid;
+        }
+
+        .callout.tip {
+            background: rgba(74, 222, 128, 0.08);
+            border-color: var(--green);
+            color: #b8f0c8;
+        }
+
+        .callout.warn {
+            background: rgba(251, 191, 36, 0.08);
+            border-color: var(--yellow);
+            color: #f5dfa0;
+        }
+
+        .callout.info {
+            background: rgba(96, 165, 250, 0.08);
+            border-color: var(--blue);
+            color: #b0d0f8;
+        }
+
+        .callout strong {
+            color: inherit;
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 16px 0;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            background: var(--surface-2);
+            font-weight: 600;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--surface);
+        }
+
+        /* ===== USE CASE CARDS ===== */
+        .usecase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 14px;
+        }
+
+        .usecase-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .usecase-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .usecase-card .uc-icon {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .usecase-card h4 {
+            margin: 0 0 6px;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .usecase-card p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ===== FILE CARDS ===== */
+        .file-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .file-card:hover {
+            border-color: var(--accent);
+        }
+
+        .file-card .file-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .file-card .file-icon {
+            font-size: 1.5rem;
+        }
+
+        .file-card .file-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--accent-light);
+        }
+
+        .file-card .file-tag {
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            background: var(--accent-glow);
+            color: var(--accent-light);
+        }
+
+        .file-card .file-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .file-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .file-card li {
+            padding: 3px 0;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .file-card li strong {
+            color: var(--text-secondary);
+        }
+
+        /* ===== SUMMARY TABLE (Files) ===== */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .summary-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .summary-item .s-icon {
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+        }
+
+        .summary-item .s-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--accent-light);
+            font-weight: 600;
+        }
+
+        .summary-item .s-role {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ===== TABS (Mac / Windows) ===== */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 24px;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            padding: 4px;
+            border: 1px solid var(--border);
+            width: fit-content;
+        }
+
+        .tab-btn {
+            padding: 10px 24px;
+            border: none;
+            background: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: var(--text);
+            background: var(--surface-2);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== API KEY TOGGLE ===== */
+        .api-options {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            padding: 4px;
+            border: 1px solid var(--border);
+            width: fit-content;
+        }
+
+        .api-btn {
+            padding: 8px 18px;
+            border: none;
+            background: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .api-btn.active {
+            background: var(--green);
+            color: #111;
+        }
+
+        .api-btn:hover:not(.active) {
+            color: var(--text);
+            background: var(--surface-2);
+        }
+
+        .api-content {
+            display: none;
+        }
+
+        .api-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* ===== TROUBLESHOOT ACCORDION ===== */
+        .accordion {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-header {
+            padding: 14px 20px;
+            background: var(--surface);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: var(--text);
+            transition: background 0.2s;
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            background: var(--surface-2);
+        }
+
+        .accordion-header .arrow {
+            transition: transform 0.3s;
+            color: var(--text-muted);
+        }
+
+        .accordion-item.open .accordion-header .arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: var(--bg);
+        }
+
+        .accordion-item.open .accordion-body {
+            max-height: 500px;
+        }
+
+        .accordion-body-inner {
+            padding: 16px 20px;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 60px 24px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        .footer-brand {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .footer a {
+            color: var(--accent-light);
+            text-decoration: none;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-light);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+
+            .req-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .usecase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero {
+                padding: 120px 20px 60px;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .step {
+                padding-left: 48px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-brand">
+                <span class="lobster">🦞</span> OpenClaw Guide
+            </a>
+            <div class="nav-links">
+                <a href="#install">Cài đặt</a>
+                <a href="#api">API Key</a>
+                <a href="#usecases">Ứng dụng</a>
+                <a href="#files">Cấu trúc</a>
+                <a href="#clawhub">ClawHub</a>
+                <a href="#troubleshoot">Xử lý lỗi</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-badge">🎓 Buổi chia sẻ miễn phí — Conan School</div>
+        <h1>Hướng Dẫn Cài Đặt<br>OpenClaw</h1>
+        <p>Cài trong 3 phút. Mở máy là có. Không cần biết code.<br>Trợ lý AI cá nhân chạy 24/7 trên chính máy tính của
+            bạn.</p>
+        <a href="#install" class="hero-cta">Bắt đầu cài đặt →</a>
+    </header>
+
+    <div class="container">
+
+        <!-- ===== YÊU CẦU HỆ THỐNG ===== -->
+        <section class="section" id="requirements">
+            <span class="section-label">📋 Chuẩn bị</span>
+            <h2>Yêu Cầu Trước Khi Cài</h2>
+            <p class="section-desc">Kiểm tra nhanh máy tính của bạn đã đáp ứng yêu cầu chưa.</p>
+
+            <div class="req-grid">
+                <div class="req-card">
+                    <div class="icon">🍎</div>
+                    <h4>macOS</h4>
+                    <ul>
+                        <li>macOS 12+ (Monterey trở lên)</li>
+                        <li>RAM 4GB trở lên</li>
+                        <li>Ổ cứng trống 1GB</li>
+                    </ul>
+                </div>
+                <div class="req-card">
+                    <div class="icon">🪟</div>
+                    <h4>Windows</h4>
+                    <ul>
+                        <li>Windows 10 v2004+ hoặc Windows 11</li>
+                        <li>RAM 4GB+ (khuyến nghị 8GB)</li>
+                        <li>Ổ cứng trống 2GB</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CÀI ĐẶT ===== -->
+        <section class="section" id="install">
+            <span class="section-label">⚡ Phần 1 &amp; 2</span>
+            <h2>Cài Đặt OpenClaw</h2>
+            <p class="section-desc">Chọn hệ điều hành của bạn rồi làm theo 4 bước.</p>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('mac')">🍎 macOS</button>
+                <button class="tab-btn" onclick="switchTab('win')">🪟 Windows</button>
+            </div>
+
+            <!-- macOS -->
+            <div class="tab-content active" id="tab-mac">
+                <div class="steps">
+                    <div class="step">
+                        <h3>Mở Terminal</h3>
+                        <p>Bấm <code>Cmd + Space</code> → gõ <strong>"Terminal"</strong> → bấm <strong>Enter</strong>
+                        </p>
+                        <div class="callout tip">💡 Terminal là ứng dụng có sẵn trên mọi Mac, không cần cài gì thêm.
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h3>Chạy lệnh cài đặt</h3>
+                        <p>Copy toàn bộ dòng dưới đây, dán vào Terminal, rồi bấm Enter:</p>
+                        <div class="code-block">
+                            <div class="code-label"><span>Terminal</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copy</button></div>
+                            <pre><code>curl -fsSL https://openclaw.ai/install.sh | bash</code></pre>
+                        </div>
+                        <p>⏳ Đợi 1-2 phút. Script tự động cài Node.js + OpenClaw CLI + cấu hình cơ bản.</p>
+                    </div>
+
+                    <div class="step">
+                        <h3>Chạy trình hướng dẫn</h3>
+                        <div class="code-block">
+                            <div class="code-label"><span>Terminal</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copy</button></div>
+                            <pre><code>openclaw onboard --install-daemon</code></pre>
+                        </div>
+                        <p>Nhập <strong>API Key</strong> khi được hỏi (xem phần tiếp theo).</p>
+                    </div>
+
+                    <div class="step">
+                        <h3>Kiểm tra thành công</h3>
+                        <div class="code-block">
+                            <div class="code-label"><span>Terminal</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copy</button></div>
+                            <pre><code>openclaw gateway status</code></pre>
+                        </div>
+                        <p>Thấy <strong>"Gateway is running"</strong> → ✅ Xong! Mở trình duyệt → vào
+                            <code>http://127.0.0.1:18789</code></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Windows -->
+            <div class="tab-content" id="tab-win">
+                <div class="steps">
+                    <div class="step">
+                        <h3>Mở PowerShell</h3>
+                        <p>Bấm phải vào nút <strong>Start</strong> → chọn <strong>"Windows PowerShell"</strong></p>
+                        <div class="callout warn">⚠️ Chọn <strong>PowerShell</strong>, KHÔNG phải Command Prompt (CMD).
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h3>Chạy lệnh cài đặt</h3>
+                        <p>Copy toàn bộ dòng dưới đây, dán vào PowerShell, rồi bấm Enter:</p>
+                        <div class="code-block">
+                            <div class="code-label"><span>PowerShell</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copy</button></div>
+                            <pre><code>iwr -useb https://openclaw.ai/install.ps1 | iex</code></pre>
+                        </div>
+                        <p>⏳ Đợi 2-3 phút. Nếu bị hỏi "Execution Policy":</p>
+                        <div class="code-block">
+                            <div class="code-label"><span>PowerShell</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copy</button></div>
+                            <pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h3>Chạy trình hướng dẫn</h3>
+                        <div class="code-block">
+                            <div class="code-label"><span>PowerShell</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copy</button></div>
+                            <pre><code>openclaw onboard --install-daemon</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h3>Kiểm tra thành công</h3>
+                        <div class="code-block">
+                            <div class="code-label"><span>PowerShell</span><button class="copy-btn"
+                                    onclick="copyCode(this)">Copy</button></div>
+                            <pre><code>openclaw gateway status</code></pre>
+                        </div>
+                        <p>Mở trình duyệt → vào <code>http://127.0.0.1:18789</code></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== API KEY ===== -->
+        <section class="section" id="api">
+            <span class="section-label">🔑 Phần 3</span>
+            <h2>Tạo API Key (Bắt buộc)</h2>
+            <p class="section-desc">OpenClaw cần API key để kết nối mô hình AI. Có 2 cách miễn phí:</p>
+
+            <div class="api-options">
+                <button class="api-btn active" onclick="switchApi('gemini')">🟢 Google AI Studio</button>
+                <button class="api-btn" onclick="switchApi('openrouter')">🔵 OpenRouter</button>
+            </div>
+
+            <div class="api-content active" id="api-gemini">
+                <div class="callout tip">💡 <strong>Khuyến nghị cho người mới.</strong> Miễn phí vĩnh viễn, ~1.000 lượt
+                    chat/ngày.</div>
+                <div class="steps">
+                    <div class="step">
+                        <h3>Vào Google AI Studio</h3>
+                        <p>Mở trình duyệt → truy cập: <a href="https://aistudio.google.com/apikey" target="_blank"
+                                style="color:var(--accent-light)">aistudio.google.com/apikey</a></p>
+                    </div>
+                    <div class="step">
+                        <h3>Đăng nhập Gmail</h3>
+                        <p>Dùng tài khoản Gmail bất kỳ của bạn.</p>
+                    </div>
+                    <div class="step">
+                        <h3>Tạo API Key</h3>
+                        <p>Bấm <strong>"Create API Key"</strong> → chọn project → bấm <strong>"Create"</strong></p>
+                    </div>
+                    <div class="step">
+                        <h3>Copy key</h3>
+                        <p>Key có dạng <code>AIzaSy...</code> — dán vào khi trình cài đặt yêu cầu.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="api-content" id="api-openrouter">
+                <div class="callout info">🔵 <strong>Cho người dùng nâng cao.</strong> Truy cập nhiều model (Qwen,
+                    DeepSeek, Gemini, Claude, GPT) qua 1 key duy nhất.</div>
+                <div class="steps">
+                    <div class="step">
+                        <h3>Đăng ký OpenRouter</h3>
+                        <p>Vào <a href="https://openrouter.ai" target="_blank"
+                                style="color:var(--accent-light)">openrouter.ai</a> → đăng ký (Google login).</p>
+                    </div>
+                    <div class="step">
+                        <h3>Tạo Key</h3>
+                        <p>Vào mục <strong>Keys</strong> → <strong>Create Key</strong> → Copy key (dạng
+                            <code>sk-or-v1-xxxx...</code>)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SAU CÀI ĐẶT ===== -->
+        <section class="section" id="usage">
+            <span class="section-label">✅ Phần 4</span>
+            <h2>Bắt Đầu Sử Dụng</h2>
+            <p class="section-desc">Sau khi cài xong, đây là các lệnh bạn cần biết.</p>
+
+            <div class="code-block">
+                <div class="code-label"><span>Mở Dashboard</span><button class="copy-btn"
+                        onclick="copyCode(this)">Copy</button></div>
+                <pre><code>openclaw dashboard</code></pre>
+            </div>
+
+            <p>Hoặc mở trình duyệt → <code>http://127.0.0.1:18789</code></p>
+
+            <div class="code-block">
+                <div class="code-label"><span>Chat thử</span><button class="copy-btn"
+                        onclick="copyCode(this)">Copy</button></div>
+                <pre><code>openclaw agent --message "Xin chào! Bạn có thể làm gì?"</code></pre>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lệnh</th>
+                            <th>Tác dụng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>openclaw dashboard</code></td>
+                            <td>Mở giao diện web</td>
+                        </tr>
+                        <tr>
+                            <td><code>openclaw gateway status</code></td>
+                            <td>Xem trạng thái hệ thống</td>
+                        </tr>
+                        <tr>
+                            <td><code>openclaw agent -m "câu hỏi"</code></td>
+                            <td>Chat trực tiếp với AI</td>
+                        </tr>
+                        <tr>
+                            <td><code>openclaw doctor</code></td>
+                            <td>Kiểm tra sức khỏe hệ thống</td>
+                        </tr>
+                        <tr>
+                            <td><code>openclaw onboard</code></td>
+                            <td>Chạy lại trình hướng dẫn</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== USE CASES ===== -->
+        <section class="section" id="usecases">
+            <span class="section-label">🚀 Phần 7</span>
+            <h2>OpenClaw Làm Được Gì?</h2>
+            <p class="section-desc">Sau khi cài xong, bạn có thể biến OpenClaw thành:</p>
+
+            <div class="usecase-grid">
+                <div class="usecase-card">
+                    <div class="uc-icon">💬</div>
+                    <h4>Trợ lý chat đa kênh</h4>
+                    <p>Kết nối Zalo, Telegram, Discord, WhatsApp — trả lời tự động 24/7</p>
+                </div>
+                <div class="usecase-card">
+                    <div class="uc-icon">📝</div>
+                    <h4>Viết nội dung</h4>
+                    <p>Viết bài, caption, kịch bản — theo phong cách riêng của bạn</p>
+                </div>
+                <div class="usecase-card">
+                    <div class="uc-icon">🔍</div>
+                    <h4>Trợ lý nghiên cứu</h4>
+                    <p>Tìm kiếm web, phân tích tài liệu, tóm tắt thông tin</p>
+                </div>
+                <div class="usecase-card">
+                    <div class="uc-icon">🗂️</div>
+                    <h4>Quản lý ghi chú</h4>
+                    <p>Tạo, sắp xếp notes trong Obsidian tự động</p>
+                </div>
+                <div class="usecase-card">
+                    <div class="uc-icon">⏰</div>
+                    <h4>Nhắc việc thông minh</h4>
+                    <p>Heartbeat kiểm tra lịch, email — tự chủ động nhắc bạn</p>
+                </div>
+                <div class="usecase-card">
+                    <div class="uc-icon">🌐</div>
+                    <h4>Tự động hóa web</h4>
+                    <p>Đăng bài fanpage, scrape dữ liệu, điền form tự động</p>
+                </div>
+                <div class="usecase-card">
+                    <div class="uc-icon">🤖</div>
+                    <h4>Hệ thống đa agent</h4>
+                    <p>Nhiều agent phối hợp: 1 quản lý + nhiều "đệ tử" chuyên biệt</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CÁC FILE QUAN TRỌNG ===== -->
+        <section class="section" id="files">
+            <span class="section-label">📁 Phần 8</span>
+            <h2>Các File Quan Trọng — "Bộ Não" Của Agent</h2>
+            <p class="section-desc">Hiểu các file này = hiểu cách điều khiển agent.</p>
+
+            <div class="file-card">
+                <div class="file-header">
+                    <span class="file-icon">🧬</span>
+                    <span class="file-name">SOUL.md</span>
+                    <span class="file-tag">Quan trọng nhất</span>
+                </div>
+                <p class="file-desc">Đây là "linh hồn" — định nghĩa <strong>agent của bạn là ai</strong>.</p>
+                <ul>
+                    <li><strong>Tính cách:</strong> Agent xưng hô thế nào, nói giọng gì</li>
+                    <li><strong>Vai trò:</strong> Trợ lý cá nhân? Marketing? Lập trình?</li>
+                    <li><strong>Nguyên tắc:</strong> Những quy tắc bất di bất dịch</li>
+                    <li><strong>Phong cách:</strong> Ngắn gọn hay chi tiết, dùng emoji không</li>
+                    <li><strong>Routing:</strong> Khi nào tự xử lý, khi nào chuyển agent khác</li>
+                </ul>
+                <div class="code-block">
+                    <div class="code-label"><span>Ví dụ SOUL.md</span></div>
+                    <pre><code># Trợ lý của tôi
+
+## Tính cách
+Bạn là trợ lý AI cá nhân. Xưng "em", gọi user là "anh/chị".
+
+## Vai trò
+- Trợ lý công việc hàng ngày
+- Nhắc lịch, tóm tắt email
+
+## Nguyên tắc
+- Ngắn gọn, rõ ràng
+- Không giả định — hỏi lại nếu chưa rõ</code></pre>
+                </div>
+            </div>
+
+            <div class="file-card">
+                <div class="file-header">
+                    <span class="file-icon">🛠️</span>
+                    <span class="file-name">SKILL.md</span>
+                    <span class="file-tag">Kỹ năng</span>
+                </div>
+                <p class="file-desc">Dạy agent làm một việc cụ thể. Mỗi skill = 1 thư mục chứa <code>SKILL.md</code>.
+                </p>
+                <ul>
+                    <li>Gõ <code>/tên-skill</code> → agent đọc SKILL.md → thực thi → báo cáo</li>
+                    <li>Dùng tools có sẵn: đọc/ghi file, chạy lệnh, duyệt web</li>
+                    <li>Ví dụ: <code>/story-bank</code> → phân tích câu chuyện → tạo note Obsidian</li>
+                </ul>
+            </div>
+
+            <div class="file-card">
+                <div class="file-header">
+                    <span class="file-icon">📋</span>
+                    <span class="file-name">AGENTS.md</span>
+                    <span class="file-tag">Quy tắc</span>
+                </div>
+                <p class="file-desc">Quy tắc chung cho mọi agent: cách xử lý skill, format tin nhắn, quản lý bộ nhớ.</p>
+            </div>
+
+            <div class="file-card">
+                <div class="file-header">
+                    <span class="file-icon">💓</span>
+                    <span class="file-name">HEARTBEAT.md</span>
+                    <span class="file-tag">Tự động</span>
+                </div>
+                <p class="file-desc">Danh sách kiểm tra mà agent đọc mỗi 30 phút. Agent tự kiểm tra các mục rồi nhắn bạn
+                    nếu cần.</p>
+                <div class="code-block">
+                    <div class="code-label"><span>Ví dụ HEARTBEAT.md</span></div>
+                    <pre><code># Heartbeat checklist
+- Có email quan trọng nào không?
+- Có lịch hẹn nào trong 2 giờ tới?
+- Nếu anh không nhắn gì hơn 8 giờ, hỏi thăm nhẹ.</code></pre>
+                </div>
+            </div>
+
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="s-icon">📇</div>
+                    <div class="s-name">SOUL.md</div>
+                    <div class="s-role">"Hồ sơ nhân sự"</div>
+                </div>
+                <div class="summary-item">
+                    <div class="s-icon">📖</div>
+                    <div class="s-name">SKILL.md</div>
+                    <div class="s-role">"Sổ tay nghiệp vụ"</div>
+                </div>
+                <div class="summary-item">
+                    <div class="s-icon">📜</div>
+                    <div class="s-name">AGENTS.md</div>
+                    <div class="s-role">"Nội quy công ty"</div>
+                </div>
+                <div class="summary-item">
+                    <div class="s-icon">⏰</div>
+                    <div class="s-name">HEARTBEAT.md</div>
+                    <div class="s-role">"Lịch tuần tra"</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CLAWHUB & HEARTBEAT ===== -->
+        <section class="section" id="clawhub">
+            <span class="section-label">🏪 Phần 9</span>
+            <h2>ClawHub &amp; Heartbeat — Mở Rộng Khả Năng</h2>
+            <p class="section-desc">Cài thêm kỹ năng cho agent và thiết lập tự động hóa.</p>
+
+            <h3>🏪 ClawHub — "App Store" cho Agent</h3>
+            <p><a href="https://clawhub.ai" target="_blank"
+                    style="color:var(--accent-light);font-weight:600">clawhub.ai</a> — nơi tìm và cài đặt skill. Tất cả
+                miễn phí và công khai.</p>
+
+            <div class="code-block">
+                <div class="code-label"><span>Cài ClawHub CLI</span><button class="copy-btn"
+                        onclick="copyCode(this)">Copy</button></div>
+                <pre><code>npm i -g clawhub</code></pre>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lệnh</th>
+                            <th>Tác dụng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>clawhub search "calendar"</code></td>
+                            <td>Tìm skill theo từ khóa</td>
+                        </tr>
+                        <tr>
+                            <td><code>clawhub install tên-skill</code></td>
+                            <td>Cài skill mới</td>
+                        </tr>
+                        <tr>
+                            <td><code>clawhub update --all</code></td>
+                            <td>Cập nhật tất cả skill</td>
+                        </tr>
+                        <tr>
+                            <td><code>clawhub list</code></td>
+                            <td>Xem skill đã cài</td>
+                        </tr>
+                        <tr>
+                            <td><code>clawhub sync --all</code></td>
+                            <td>Đồng bộ & publish skill</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top:40px">💓 Heartbeat — Agent tự "thức dậy" làm việc</h3>
+            <p>Có sẵn trong OpenClaw. Mỗi 30 phút, agent tự kiểm tra <code>HEARTBEAT.md</code> và nhắn bạn nếu cần.</p>
+
+            <div class="code-block">
+                <div class="code-label"><span>Cấu hình heartbeat trong openclaw.json</span></div>
+                <pre><code>{
+  "agents": {
+    "defaults": {
+      "heartbeat": {
+        "every": "30m",
+        "target": "last",
+        "activeHours": {
+          "start": "08:00",
+          "end": "23:00"
+        }
+      }
+    }
+  }
+}</code></pre>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Thuộc tính</th>
+                            <th>Ý nghĩa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>every</code></td>
+                            <td>Tần suất: <code>"30m"</code>, <code>"1h"</code>, <code>"0m"</code> (tắt)</td>
+                        </tr>
+                        <tr>
+                            <td><code>target</code></td>
+                            <td>Gửi đi đâu: <code>"last"</code> (kênh cuối), <code>"none"</code> (im lặng)</td>
+                        </tr>
+                        <tr>
+                            <td><code>activeHours</code></td>
+                            <td>Chỉ chạy trong khung giờ (tránh spam ban đêm)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== XỬ LÝ LỖI ===== -->
+        <section class="section" id="troubleshoot">
+            <span class="section-label">❓ Phần 5</span>
+            <h2>Xử Lý Lỗi Thường Gặp</h2>
+            <p class="section-desc">Bấm vào từng mục để xem cách khắc phục.</p>
+
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>🍎 Mac: "Permission denied"</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="accordion-body-inner">
+                            <div class="code-block">
+                                <div class="code-label"><span>Terminal</span><button class="copy-btn"
+                                        onclick="copyCode(this)">Copy</button></div>
+                                <pre><code>chmod +x install-mac.sh && bash install-mac.sh</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>🍎 Mac: Gatekeeper chặn chạy script</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="accordion-body-inner">
+                            <p>Vào <strong>System Settings → Privacy & Security</strong> → cuộn xuống → bấm
+                                <strong>"Allow Anyway"</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>🪟 Windows: "Execution Policy" error</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="accordion-body-inner">
+                            <div class="code-block">
+                                <div class="code-label"><span>PowerShell</span><button class="copy-btn"
+                                        onclick="copyCode(this)">Copy</button></div>
+                                <pre><code>powershell -ExecutionPolicy Bypass -File install-windows.ps1</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>🪟 Windows: Script bị kẹt / không phản hồi</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="accordion-body-inner">
+                            <p>Khởi động lại máy tính, rồi chạy lại script từ đầu.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Cả hai: "openclaw: command not found"</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="accordion-body-inner">
+                            <p><strong>Đóng</strong> cửa sổ Terminal/PowerShell hiện tại → <strong>mở cái mới</strong> →
+                                thử lại.</p>
+                            <p>Nếu vẫn không được:</p>
+                            <div class="code-block">
+                                <div class="code-label"><span>Terminal</span><button class="copy-btn"
+                                        onclick="copyCode(this)">Copy</button></div>
+                                <pre><code>export PATH="$(npm config get prefix)/bin:$PATH"</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Cả hai: Node.js not found hoặc version quá cũ</span>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="accordion-body-inner">
+                            <p>Kiểm tra: <code>node --version</code> (cần v22+)</p>
+                            <p>Nếu chưa có: vào <a href="https://nodejs.org" target="_blank"
+                                    style="color:var(--accent-light)">nodejs.org</a> → Download LTS → Cài đặt →
+                                <strong>Khởi động lại máy</strong> (Windows)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== NÂNG CẤP ===== -->
+        <section class="section" id="upgrade">
+            <span class="section-label">♻️ Phần 6</span>
+            <h2>Nâng Cấp Sau Này</h2>
+            <p class="section-desc">Khi có phiên bản mới, chỉ cần chạy 2 lệnh:</p>
+            <div class="code-block">
+                <div class="code-label"><span>Terminal / PowerShell</span><button class="copy-btn"
+                        onclick="copyCode(this)">Copy</button></div>
+                <pre><code>npm install -g openclaw@latest
+openclaw doctor</code></pre>
+            </div>
+        </section>
+
+    </div><!-- /container -->
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-brand">🦞</div>
+        <p>Tài liệu được chuẩn bị bởi <strong>Thông Phan — <a href="https://conan.school" target="_blank">Conan
+                    School</a></strong></p>
+        <p style="margin-top:4px">Nếu cần hỗ trợ thêm, liên hệ trực tiếp trong buổi chia sẻ nhé!</p>
+        <div class="footer-links">
+            <a href="https://docs.openclaw.ai" target="_blank">📖 Tài liệu chính thức</a>
+            <a href="https://discord.gg/clawd" target="_blank">💬 Discord</a>
+            <a href="https://github.com/openclaw/openclaw" target="_blank">🐙 GitHub</a>
+            <a href="https://clawhub.ai" target="_blank">🏪 ClawHub</a>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 20);
+        });
+
+        // Tabs
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // API tabs
+        function switchApi(api) {
+            document.querySelectorAll('.api-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.api-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('api-' + api).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Copy button
+        function copyCode(btn) {
+            const code = btn.closest('.code-block').querySelector('code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '✓ Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Accordion
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            item.classList.toggle('open');
+        }
+    </script>
+
+</body>
+
+</html>
